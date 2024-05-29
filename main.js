@@ -21,3 +21,24 @@ const productsInCart = [
     freight: 30.0,
   },
 ];
+
+function formatCurrency(value) {
+  return new Intl.NumberFormat("pt-Br",{style: "currency", currency: "BRL"}).format(value)
+};
+
+const initialValue = 0;
+
+const totalItemsQuantity = productsInCart.reduce((previousValue,product) => previousValue + product.quantity,initialValue);
+const itemsSubtotal = productsInCart.reduce((previousValue,product) => previousValue + (product.price * product.quantity),initialValue);
+const totalFreight = productsInCart.reduce((previousValue, product) => Math.max(previousValue,product.freight),initialValue);
+const totalValue = itemsSubtotal + totalFreight;
+
+const itemsSubtotalHtml = document.getElementById("cart-subtotal-value");
+const totalFreightHtml = document.getElementById("cart-freight-value");
+const totalValueHtml = document.getElementById("cart-total-value");
+const totalItemsQuantityHtml = document.getElementById("cart-quantity-value");
+
+totalItemsQuantityHtml.innerText = totalItemsQuantity;
+itemsSubtotalHtml.innerText = formatCurrency(itemsSubtotal);
+totalFreightHtml.innerText = formatCurrency(totalFreight);
+totalValueHtml.innerText = formatCurrency(totalValue);
